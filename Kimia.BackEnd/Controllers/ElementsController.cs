@@ -19,5 +19,11 @@ namespace Kimia.BackEnd.Controllers
         {
             return _context.Elements;
         }
+
+        [HttpGet("hello")]
+        public ActionResult<string> SayHello()
+        {
+            return "Hello, world!";
+        }
     }
 }

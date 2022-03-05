@@ -2,9 +2,14 @@
 
 <h1>Counter</h1>
 <p>Current count: <strong>@currentCount</strong></p>
-<button @onclick="IncrementCount">Increment!</button>
+<button class="btn btn-primary btn-sm" @onclick="IncrementCount">Increment!</button>
+<hr />
+<input @bind-value="message" />
+<hr />
+<h3>@message</h3>
 
 @code {
+    string message = "inital value";
     int currentCount = 0;
 
     void IncrementCount()

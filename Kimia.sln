@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kimia.BackEnd", "Kimia.Back
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kimia.FrontEnd", "Kimia.FrontEnd\Kimia.FrontEnd.csproj", "{BD7B0E49-C827-40ED-8404-AB182BB51A10}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kimia.MudFrontEnd", "Kimia.MudFrontEnd\Kimia.MudFrontEnd.csproj", "{72B17168-BFC5-43B9-91FE-B7D517B8F7FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BD7B0E49-C827-40ED-8404-AB182BB51A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD7B0E49-C827-40ED-8404-AB182BB51A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD7B0E49-C827-40ED-8404-AB182BB51A10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B17168-BFC5-43B9-91FE-B7D517B8F7FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B17168-BFC5-43B9-91FE-B7D517B8F7FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B17168-BFC5-43B9-91FE-B7D517B8F7FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B17168-BFC5-43B9-91FE-B7D517B8F7FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

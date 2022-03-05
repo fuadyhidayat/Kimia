@@ -1,0 +1,39 @@
+﻿@page "/elements/cards"
+
+@inject HttpClient httpClient
+
+@if (_elements is null)
+{
+    <Loading />
+}
+else
+{
+   <div class="row row-cols-6 g-3">
+        @foreach (var element in _elements)
+        {
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>@element.Molar</div>
+                            <div class="h3">@element.Number</div>
+                        </div>
+                        <p class="card-title display-1">@element.Sign</p>
+                        <p class="card-text">@element.Name</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<ElementData>? _elements;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(2000);
+
+        _elements = await httpClient.GetFromJsonAsync<List<ElementData>>("https://localhost:44371/elements");
+    }
+}
