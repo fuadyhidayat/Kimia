@@ -1,0 +1,20 @@
+﻿@page "/counter"
+
+<Title Text="Counter" />
+<MudGrid>
+    <MudItem xs="6">
+        <MudField Label="Current Count">@currentCount</MudField>
+    </MudItem>
+    <MudItem xs="6">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="IncrementCount">Click me</MudButton>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

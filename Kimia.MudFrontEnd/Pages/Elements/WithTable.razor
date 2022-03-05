@@ -1,0 +1,100 @@
+﻿@page "/elements/table"
+
+@using Models
+@using Dialogs
+@inject HttpClient httpClient
+
+<Title Text="Elements in a Table" />
+
+@if (_elements is null)
+{
+    <MudProgressLinear Indeterminate="true" Striped="true" Color="Color.Primary" />
+}
+else
+{
+    <MudTable Items="@_elements" Hover="true" Bordered="true" Striped="true" Filter="FilterElements">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Periodic Elements</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="keyword" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<ElementData, object>(x => x.Number)">Number</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ElementData, object>(x => x.Sign)">Sign</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ElementData, object>(x => x.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ElementData, object>(x => x.Molar)">Mass</MudTableSortLabel></MudTh>
+            <MudTh>Details</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>
+                <MudHighlighter Text="@context.Number.ToString()" HighlightedText="@keyword" />
+            </MudTd>
+            <MudTd>
+                <MudHighlighter Text="@context.Sign" HighlightedText="@keyword" />
+            </MudTd>
+            <MudTd>
+                <MudHighlighter Text="@context.Name" HighlightedText="@keyword" />
+            </MudTd>
+            <MudTd>
+                <MudHighlighter Text="@context.Molar.ToString()" HighlightedText="@keyword" />
+            </MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Pageview" OnClick="@(() => ShowDialogDetails(context))"></MudIconButton>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+@code {
+    private string keyword = string.Empty;
+
+    private List<ElementData>? _elements;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(2000);
+
+        _elements = await httpClient.GetFromJsonAsync<List<ElementData>>("https://localhost:44371/elements");
+
+        _snackbar.Add("Sukses ambil data dari Back-End", Severity.Success);
+    }
+
+    private bool FilterElements(ElementData element)
+    {
+        if (string.IsNullOrWhiteSpace(keyword))
+            return true;
+
+        if (element.Sign.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (element.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+
+    private async Task ShowDialogDetails(ElementData element)
+    {
+        var parameters = new DialogParameters
+        {
+            { nameof(DialogDetails.TheElement), element }
+        };
+
+        var options = new DialogOptions
+        {
+            CloseButton = true
+        };
+
+        var dialog = _dialogService.Show<DialogDetails>("Element Details", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var comment = result.Data.ToString();
+
+            _snackbar.Add(comment, Severity.Info);
+        }
+    }
+}

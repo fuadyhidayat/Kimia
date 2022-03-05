@@ -1,0 +1,68 @@
+﻿@page "/elements/cards"
+
+@using Models
+@using Dialogs
+@inject HttpClient httpClient
+
+<Title Text="Elements in Cards" />
+@if (_elements is null)
+{
+    <MudProgressLinear Indeterminate="true" Striped="true" Color="Color.Secondary" />
+}
+else
+{
+    <MudPaper Elevation="0" Class="d-flex flex-wrap gap-3">
+        @foreach (var element in _elements)
+        {
+            <MudCard Elevation="5" Class="grey lighten-4" Style="width: 150px;">
+                <MudCardContent>
+                    <div class="d-flex justify-space-between">
+                        <MudText Typo="Typo.caption">@element.Molar</MudText>
+                        <MudText Typo="Typo.h5">@element.Number</MudText>
+                    </div>
+                    <MudButton OnClick="@(() => ShowDialogDetails(element))">
+                        <MudText Typo="Typo.h2" Style="font-weight: bold;">@element.Sign</MudText>
+                    </MudButton>
+                    <MudText Typo="Typo.body2">@element.Name</MudText>
+                </MudCardContent>
+            </MudCard>
+        }
+    </MudPaper>
+}
+
+
+@code {
+    private IEnumerable<ElementData>? _elements;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(2000);
+
+        _elements = await httpClient.GetFromJsonAsync<List<ElementData>>("https://localhost:44371/elements");
+
+        _snackbar.Add("Sukses ambil data dari Back-End", Severity.Success);
+    }
+
+    private async Task ShowDialogDetails(ElementData element)
+    {
+        var parameters = new DialogParameters
+        {
+            { nameof(DialogDetails.TheElement), element }
+        };
+
+        var options = new DialogOptions
+            {
+                CloseButton = true
+            };
+
+        var dialog = _dialogService.Show<DialogDetails>($"{element.Name} ({element.Sign})", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var comment = result.Data.ToString();
+
+            _snackbar.Add(comment, Severity.Info);
+        }
+    }
+}

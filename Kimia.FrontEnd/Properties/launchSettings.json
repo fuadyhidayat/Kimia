@@ -1,0 +1,16 @@
+{
+  "profiles":
+  {
+    "Kimia.FrontEnd":
+    {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:44372",
+      "environmentVariables":
+      {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "profiles":
+  {
+    "Kimia.MudFrontEnd":
+    {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:44373",
+      "environmentVariables":
+      {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
