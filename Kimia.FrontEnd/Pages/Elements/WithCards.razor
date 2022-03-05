@@ -5,34 +5,39 @@
 @inject HttpClient httpClient
 
 <Title Text="Elements in Cards"></Title>
-<div class="row row-cols-6 g-3">
-    @foreach (var element in _elements)
-    {
-        <div class="col">
-            <div class="card bg-light">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>@element.Molar</div>
-                        <div class="h3">@element.Number</div>
+@if (_elements is null)
+{
+    <h2>Loading...</h2>
+    <h4>Please wait...</h4>
+}
+else
+{
+    <div class="row row-cols-6 g-3">
+        @foreach (var element in _elements)
+        {
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>@element.Molar</div>
+                            <div class="h3">@element.Number</div>
+                        </div>
+                        <p class="card-title display-1">@element.Sign</p>
+                        <p class="card-text">@element.Name</p>
                     </div>
-                    <p class="card-title display-1">@element.Sign</p>
-                    <p class="card-text">@element.Name</p>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
 
 @code {
-    private List<ElementData> _elements = new List<ElementData>();
+    private List<ElementData>? _elements;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetFromJsonAsync<List<ElementData>>("https://localhost:44371/elements");
+        await Task.Delay(2000);
 
-        if (response is not null)
-        {
-            _elements = response;
-        }
+        _elements = await httpClient.GetFromJsonAsync<List<ElementData>>("https://localhost:44371/elements");
     }
 }
